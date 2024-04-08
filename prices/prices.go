@@ -1,9 +1,8 @@
 package prices
 
 import (
-	//"bufio"
 	"fmt"
-	//"os"
+
 	"example.com/price_calculator/conversion"
 	"example.com/price_calculator/filemanager"
 )
@@ -11,7 +10,7 @@ import (
 type TaxIncludedPriceJob struct {
 	TaxRates          float64
 	InputPrice        []float64
-	TaxIncludedPrices map[string]float64
+	TaxIncludedPrices map[string]string
 }
 
 func (job *TaxIncludedPriceJob) Process() {
@@ -21,7 +20,10 @@ func (job *TaxIncludedPriceJob) Process() {
 		taxIncludedPrice := price * (1 + job.TaxRates)
 		result[fmt.Sprintf("%.2f", price)] = fmt.Sprintf("%.2f", taxIncludedPrice)
 	}
-	fmt.Println(result)
+
+	job.TaxIncludedPrices = result
+	filemanager.WriteJson(fmt.Sprintf("result_%.0f.json", job.TaxRates*100), job)
+
 }
 
 func NewTaxIncludedPriceJob(taxRate float64) *TaxIncludedPriceJob {
