@@ -8,10 +8,10 @@ import (
 )
 
 type TaxIncludedPriceJob struct {
-	IOManager         filemanager.FileManager
-	TaxRates          float64
-	InputPrice        []float64
-	TaxIncludedPrices map[string]string
+	IOManager         filemanager.FileManager `json:"-" `
+	TaxRates          float64                 `json:"tax_rate"`
+	InputPrice        []float64               `json:"input_prices"`
+	TaxIncludedPrices map[string]string       `json:"tax_included_prices"`
 }
 
 func (job *TaxIncludedPriceJob) Process() {
